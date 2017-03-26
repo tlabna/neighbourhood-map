@@ -20,21 +20,21 @@ var Venue = function(data, foursquare_appInfo) {
 Venue.prototype = {
 
     getFormattedPhone: function(data) {
-        if ( !data.venue.contact.formattedPhone )
+        if (!data.venue.contact.formattedPhone)
             return 'Contact Not Available';
         else
             return data.venue.contact.formattedPhone;
     },
 
     getUrl: function(data) {
-        if ( !data.venue.url )
+        if (!data.venue.url)
             return 'Website Not Available';
         else
             return data.venue.url;
     },
 
     getRating: function(data) {
-        if ( !data.venue.rating )
+        if (!data.venue.rating)
             return '0.0';
         else
             return data.venue.rating;
@@ -53,14 +53,53 @@ function ViewModel() {
         placeLat,
         placeLng;
 
-    var defaultNeighbourhood = 'Doha';
+    var defaultNeighbourhood = 'Montreal';
 
-    self.currentNeighborhoodMarker = ko.observable(''); // current neighborhood marker
-    self.formattedAddress = ko.observable('');  // formatted neighborhood location address
+    self.neighbourhood = ko.observable(defaultNeighbourhood); // search value for neighbourhood
+    self.currentNeighbourhoodMarker = ko.observable(''); // current neighborhood marker
+    self.formattedAddress = ko.observable(''); // formatted neighborhood location address
     self.searchInput = ko.observable(''); // user search input
     self.topPicks = ko.observableArray(''); //topPicks from foursquare
     self.selectedMarker = ko.observable(''); // selected marker
+    self.selectedVenue = ko.observable(''); // selected venue
 
+
+    // Update displays for map and venues when user
+    // types in area search box
+    self.computedNeighbourhood = function() {
+        // Check if we have neighbourhood value and handle empty string
+        if (self.neighbourhood() !== null || self.neighbourhood.length === 0) {
+            removeVenueMarkers();
+            self.topPicks([]);
+            getNeighbourhood(self.neighbourhood());
+        }
+
+    };
+
+    // when user changes area in search box
+    // update displays for map and venues
+    // http://blog.mgechev.com/2013/04/24/why-to-use-publishsubscribe-in-javascript/
+    self.neighbourhood.subscribe(self.computedNeighbourhood);
+
+    // when user inputs a search keyword, catch and
+    // update displays for map and venues
+    self.searchInput.subscribe(self.computedNeighbourhood);
+
+
+    // Make sure last area markers are removed from map
+    // after user changes location
+    function removeVenueMarkers() {
+
+        // clear current neighborhood marker
+        self.currentNeighbourhoodMarker.setMap(null);
+
+        // clear all venues' markers
+        self.topPicks().forEach(function(venueItem) {
+            venueItem.marker.setMap(null);
+            venueItem.marker = {};
+        });
+
+    }
 
     /*
      * Get top pick nearby venues data from foursquare API
@@ -73,7 +112,7 @@ function ViewModel() {
         var foursquareBaseURL = 'https://api.foursquare.com/v2/venues/explore?';
         var foursquare_appInfo = 'client_id=WLXQPOZK22SRFVLU2C5EP2ODWDNRSTK0TSTW0HUMGBJHOFCI&client_secret=XADMZHNBFKJCM35LFYPVFGPHM1DWV3MO4P4F0R0NN5GQ5GPJ';
         var neighbourhoodLatLng = '&ll=' + placeLat + ',' + placeLng;
-        var query = '&query=' + self.searchInput;
+        var query = '&query=' + self.searchInput();
         var foursquareURL = foursquareBaseURL + foursquare_appInfo + '&v=20161016' + neighbourhoodLatLng + query;
 
         $.ajax({
@@ -84,7 +123,7 @@ function ViewModel() {
 
                 // retrieve and set foursquare venue data in topPicks observable array
                 initialFoursquareData.forEach(function(venueItem) {
-                    self.topPicks.push( new Venue(venueItem, foursquare_appInfo) );
+                    self.topPicks.push(new Venue(venueItem, foursquare_appInfo));
                 });
 
                 // set marker for each venue
@@ -104,10 +143,10 @@ function ViewModel() {
                 }
             },
             complete: function() {
-                if(self.topPicks().length === 0)
+                if (self.topPicks().length === 0)
                     $('#foursquare-error').html('<h2>No result available.</h2><h2>Please try a different search</h2>');
             },
-            error: function( data ) {
+            error: function(data) {
                 $('#foursquare-error').html('<h2>There were errors retrieving venue data. Please try refreshing the page.</h2>');
             }
         });
@@ -240,7 +279,7 @@ function ViewModel() {
         });
 
         // set current neighborhood marker to this marker
-        self.currentNeighborhoodMarker = marker;
+        self.currentNeighbourhoodMarker = marker;
 
     }
 
@@ -323,39 +362,43 @@ function ViewModel() {
 
         map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
+        /* Auto geolocation seems to break observable...
+        * Come back to this later.
+        */
         // Try Geolocation. Auto locate user location.
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                var pos = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                };
-                // Reverse geocode to get formatted address
-                /* Source:
-                https://developers.google.com/maps/documentation/javascript/examples/geocoding-reverse
-                */
-                var geocoder = new google.maps.Geocoder();
-                geocoder.geocode({'location': pos}, function (results, status) {
-                    if (status === 'OK') {
-                        if (results[0]){
-                            // When reverse geolocation is complete
-                            // let's take user to their city
-                            var address_components = results[0].address_components;
-                            for (i = 0; i < results[0].address_components.length; i++) {
-                                // Find users city
-                                if (address_components[i].types[0] === 'locality') {
-                                    // strip city name and go through process of setting up maps new location
-                                    getNeighbourhood(address_components[i].short_name);
-                                }
-                            }
-                        }
-                    }
-                    else {
-                        gm_authFailure('places');
-                    }
-                });
-            });
-        }
+        // if (navigator.geolocation) {
+        //     navigator.geolocation.getCurrentPosition(function(position) {
+        //         var pos = {
+        //             lat: position.coords.latitude,
+        //             lng: position.coords.longitude
+        //         };
+        //         // Reverse geocode to get formatted address
+        //         /* Source:
+        //         https://developers.google.com/maps/documentation/javascript/examples/geocoding-reverse
+        //         */
+        //         var geocoder = new google.maps.Geocoder();
+        //         geocoder.geocode({ 'location': pos }, function(results, status) {
+        //             if (status === 'OK') {
+        //                 if (results[0]) {
+        //                     // When reverse geolocation is complete
+        //                     // let's take user to their city
+        //                     var address_components = results[0].address_components;
+        //                     for (i = 0; i < results[0].address_components.length; i++) {
+        //                         // Find users city
+        //                         if (address_components[i].types[0] === 'locality') {
+        //                             // strip city name and go through process of setting up maps new location
+        //                             city = address_components[i].short_name;
+        //                             self.neighbourhood = city;
+        //                             getNeighbourhood(city);
+        //                         }
+        //                     }
+        //                 }
+        //             } else {
+        //                 gm_authFailure('places');
+        //             }
+        //         });
+        //     });
+        // }
     }
 
     // Initialize map
@@ -363,14 +406,22 @@ function ViewModel() {
 
     // Initialize neighbourhood
     initNeighbourhood(defaultNeighbourhood);
+
 }
 
 // Catch errors returned from the map
 function gm_authFailure(service) {
-        if (service == 'places') {
-            $('#map-error').html('<h2>There were errors when retrieving map data.</h2><h2>It seems your search does not exist...</h2>');
-            return;
-        }
-        $('#map-error').html('<h2>There were errors when retrieving map data.</h2><h2>Please try refreshing the page.</h2>');
+    if (service == 'places') {
+        $('#map-error').html('<h2>There were errors when retrieving map data.</h2><h2>It seems your search does not exist...</h2>');
         return;
     }
+    $('#map-error').html('<h2>There were errors when retrieving map data.</h2><h2>Please try refreshing the page.</h2>');
+    return;
+}
+
+// initialize ViewModel
+$(function () {
+
+    ko.applyBindings(new ViewModel());
+
+});

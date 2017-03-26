@@ -13,15 +13,30 @@
     <div id="map-error"></div>
     <div id="map"></div>
     <div class="container overlap">
-        <strong>HELLO!!</strong>
+        <form class="form-inline" action="javascript:void(0);">
+            <!-- Search box for areas -->
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">Area</div>
+                    <input data-bind="value: neighbourhood" type="search" name="search" class="form-control" placeholder="Neighbourhood">
+                </div>
+            </div>
+            <!-- Search venues by keyword box -->
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">Find</div>
+                <input data-bind="value: searchInput" type="search" name ="search" class="form-control" id="search-venues" placeholder="Search for something specific Ex: pizza">
+              </div>
+            </div>
+        </form>
+        <div id="foursquare-error"></div>
     </div>
-    <div id="foursquare-error"></div>
     <!-- Initialize Google Map -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNVql4BDc9FUGDLwN3HjjcZ0zz2SS9-sY&libraries=places&callback=ViewModel" async defer></script>
-    <script async src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNVql4BDc9FUGDLwN3HjjcZ0zz2SS9-sY&libraries=places" async defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.1/knockout-min.js"></script>
-    <script async src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="js/app.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous" async></script>
+    <script src="js/app.js" async defer></script>
 </body>
 
 </html>
