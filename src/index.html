@@ -29,8 +29,19 @@
                 </div>
             </div>
         </form>
-        <div class="venues-list">
+        <!-- Current location box that toggles venue list -->
+        <div class="current-location-box">
+            <div class="current-location-address">
+              <span data-bind="text: formattedAddress"></span>
+              <div class="toggle-venues-list" data-bind="click:toggleVenuesDisplay()"><span data-bind="css: {'glyphicon-plus': !displayVenuesList(), 'glyphicon-minus': displayVenuesList()}" class="glyphicon"></span>
+                </div>
+            </div>
+        </div>
+        <div data-bind="visible: displayVenuesList" class="venues-list">
             <div id="foursquare-error"></div>
+            <div class="foursquare-img-container">
+                <img src="images/foursquare.png" alt="Powered by Foursquare">
+            </div>
             <!-- ko foreach: topPicks() -->
             <div data-bind="attr:{id: id}, css:{'selected-venue-item': id === $root.selectedVenue()}, click: $root.panToMarker" class="venue-list-item group">
                 <div data-bind="text: name" class="venue-name"></div>

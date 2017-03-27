@@ -62,6 +62,7 @@ function ViewModel() {
     self.topPicks = ko.observableArray(''); //topPicks from foursquare
     self.selectedMarker = ko.observable(''); // selected marker
     self.selectedVenue = ko.observable(''); // selected venue
+    self.displayVenuesList = ko.observable('false'); // boolean for display venues list (default: false)
 
     // Update displays for map and venues when user
     // types in area search box
@@ -73,6 +74,11 @@ function ViewModel() {
             getNeighbourhood(self.neighbourhood());
         }
 
+    };
+
+    // toggle display function for venues list
+    self.toggleVenuesDisplay = function() {
+        self.displayVenuesList(!self.displayVenuesList());
     };
 
     // when user changes area in search box
@@ -383,7 +389,9 @@ function ViewModel() {
     function initMap() {
         mapOptions = {
             zoom: 17,
-            disableDefaultUI: true
+            disableDefaultUI: true,
+            // https://snazzymaps.com/style/42/apple-maps-esque
+            styles: [{"featureType":"landscape.man_made","elementType":"geometry","stylers":[{"color":"#f7f1df"}]},{"featureType":"landscape.natural","elementType":"geometry","stylers":[{"color":"#d0e3b4"}]},{"featureType":"landscape.natural.terrain","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"poi.business","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi.medical","elementType":"geometry","stylers":[{"color":"#fbd3da"}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#bde6ab"}]},{"featureType":"road","elementType":"geometry.stroke","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#ffe15f"}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#efd151"}]},{"featureType":"road.arterial","elementType":"geometry.fill","stylers":[{"color":"#ffffff"}]},{"featureType":"road.local","elementType":"geometry.fill","stylers":[{"color":"black"}]},{"featureType":"transit.station.airport","elementType":"geometry.fill","stylers":[{"color":"#cfb2db"}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#a2daf2"}]}]
         };
 
         map = new google.maps.Map(document.getElementById('map'), mapOptions);
@@ -438,7 +446,7 @@ function ViewModel() {
 // Catch errors returned from the map
 function gm_authFailure(service) {
     if (service == 'places') {
-        $('#map-error').html('<h2>There were errors when retrieving map data.</h2><h2>It seems your search does not exist...</h2>');
+        $('#map-error').html('<h2>It seems your search does not exist...</h2><h2>Please refresh the page and try a different search result.</h2>');
         return;
     }
     $('#map-error').html('<h2>There were errors when retrieving map data.</h2><h2>Please try refreshing the page.</h2>');
