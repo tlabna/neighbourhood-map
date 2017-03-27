@@ -42,6 +42,75 @@ body {
   background: #FFF;
 }
 
+.venue-list-item {
+    padding: 15px;
+    border-bottom: 1px solid #E6E6E6;
+}
+
 .selected-venue-item {
     background: #FFF2A8;
+}
+
+.venue-list-item .glyphicon{
+  padding-right: 5px;
+  float:left;
+  clear:left;
+}
+
+/* Wrap text that is too long */
+.venue-list-item .content{
+  word-wrap: break-word;
+}
+
+.venue-list-item .venue-name {
+    font-size: 2em;
+    margin-bottom: 5px;
+    line-height: 25px;
+}
+
+.venue-list-item .venue-sub {
+    margin-bottom: 10px;
+}
+
+.venue-list-item .venue-rating {
+    display: inline;
+}
+
+.venue-list-item .venue-rating .badge {
+    font-size: 16px;
+    background-color: #3366FF;
+}
+
+.venue-list-item .venue-address {
+    font-size: 12px;
+    display: inline;
+    margin-left: 5px;
+}
+
+.venue-list-item .venue-category,
+.venue-list-item .venue-contact,
+.venue-list-item .venue-website {
+    font-size: 14px;
+}
+
+.badge {
+    background-color: #3366FF !important;
+}
+
+.venue-infowindow {
+    max-width: 250px;
+}
+
+.venue-infowindow .venue-name {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.venue-infowindow .venue-rating {
+    margin-left: 5px;
+}
+
+.venue-infowindow .glyphicon {
+    margin-right: 5px;
+    margin-bottom: 5px;
 }
