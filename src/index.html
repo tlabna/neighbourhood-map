@@ -12,7 +12,7 @@
 <body>
     <div id="map-error"></div>
     <div id="map"></div>
-    <div class="container overlap">
+    <div class="container pull-left overlap">
         <form class="form-inline" action="javascript:void(0);">
             <!-- Search box for areas -->
             <div class="form-group">
@@ -23,13 +23,36 @@
             </div>
             <!-- Search venues by keyword box -->
             <div class="form-group">
-              <div class="input-group">
-                <div class="input-group-addon">Find</div>
-                <input data-bind="value: searchInput" type="search" name ="search" class="form-control" id="search-venues" placeholder="Search for something specific Ex: pizza">
-              </div>
+                <div class="input-group">
+                    <div class="input-group-addon">Find</div>
+                    <input data-bind="value: searchInput" type="search" name="search" class="form-control" id="search-venues" placeholder="Search for something specific Ex: pizza">
+                </div>
             </div>
         </form>
-        <div id="foursquare-error"></div>
+        <div class="venues-list">
+            <div id="foursquare-error"></div>
+            <!-- ko foreach: topPicks() -->
+            <div data-bind="css:{'selected-venue-item': id === $root.selectedVenue()}" class="venue-list-item group">
+                <div data-bind="text: name" class="venue-name"></div>
+                <div class="venue-sub group">
+                    <div class="venue-rating"><span data-bind="text: rating" class="badge"></span></div>
+                    <div data-bind="text: formattedAddress" class="venue-address"></div>
+                </div>
+                <div class="venue-category">
+                    <div class="glyphicon glyphicon-tag"></div>
+                    <div data-bind="text: categories" class="content"></div>
+                </div>
+                <div class="venue-contact">
+                    <div class="glyphicon glyphicon-earphone"></div>
+                    <div data-bind="text: formattedPhone" class="content"></div>
+                </div>
+                <div class="venue-website">
+                    <div class="glyphicon glyphicon-globe"></div>
+                    <div data-bind="text: url" class="content"></div>
+                </div>
+            </div>
+            <!-- /ko -->
+        </div>
     </div>
     <!-- Initialize Google Map -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNVql4BDc9FUGDLwN3HjjcZ0zz2SS9-sY&libraries=places" async defer></script>

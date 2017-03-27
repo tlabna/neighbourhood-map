@@ -214,7 +214,7 @@ function ViewModel() {
         // set marker click event
         google.maps.event.addListener(venueMarker, 'click', function() {
 
-            // set info window content
+
             infowindow.setContent(venueInfowindowStr);
             // open info window if this marker is clicked
             infowindow.open(map, venueMarker);
