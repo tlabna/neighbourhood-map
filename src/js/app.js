@@ -63,7 +63,6 @@ function ViewModel() {
     self.selectedMarker = ko.observable(''); // selected marker
     self.selectedVenue = ko.observable(''); // selected venue
 
-
     // Update displays for map and venues when user
     // types in area search box
     self.computedNeighbourhood = function() {
@@ -84,6 +83,30 @@ function ViewModel() {
     // when user inputs a search keyword, catch and
     // update displays for map and venues
     self.searchInput.subscribe(self.computedNeighbourhood);
+
+    /*
+     * When venue item is clicked on:
+     * 1. Pan to marker on map
+     * 2. Open infoWindow
+     * 3. Animate marker with bounce
+     * @param venue {Object}. Venue object of
+     * clicked venue item in list
+     * @return {void}
+     */
+    self.panToMarker = function(venue) {
+        console.log('fired click event');
+
+        var venueInfoWindow = setVenueInfoWindow(venue);
+        var venuePosition = new google.maps.LatLng(venue.lat, venue.lng);
+
+        self.selectedMarker(venue.marker);
+        self.selectedVenue(venue.id);
+        infowindow.setContent(venueInfoWindow);
+        infowindow.open(map, venue.marker);
+        map.panTo(venuePosition);
+        selectedMarkerBounce(venue.marker);
+
+    };
 
 
     // Make sure last area markers are removed from map
@@ -199,7 +222,7 @@ function ViewModel() {
     function createVenueMarker(venue) {
 
         // save venue info window content in a var
-        var venueInfowindowStr = setVenueInfoWindow(venue);
+        var venueInfoWindow = setVenueInfoWindow(venue);
 
         var venuePosition = new google.maps.LatLng(venue.lat, venue.lng);
 
@@ -214,8 +237,11 @@ function ViewModel() {
         // set marker click event
         google.maps.event.addListener(venueMarker, 'click', function() {
 
-
-            infowindow.setContent(venueInfowindowStr);
+            document.getElementById(venue.id).scrollIntoView();
+            // set this venue id as selected venue
+            self.selectedVenue(venue.id);
+            // set info window content
+            infowindow.setContent(venueInfoWindow);
             // open info window if this marker is clicked
             infowindow.open(map, venueMarker);
             // set marker animation to bounce if this marker is clicked

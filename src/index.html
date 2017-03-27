@@ -32,7 +32,7 @@
         <div class="venues-list">
             <div id="foursquare-error"></div>
             <!-- ko foreach: topPicks() -->
-            <div data-bind="css:{'selected-venue-item': id === $root.selectedVenue()}" class="venue-list-item group">
+            <div data-bind="attr:{id: id}, css:{'selected-venue-item': id === $root.selectedVenue()}, click: $root.panToMarker" class="venue-list-item group">
                 <div data-bind="text: name" class="venue-name"></div>
                 <div class="venue-sub group">
                     <div class="venue-rating"><span data-bind="text: rating" class="badge"></span></div>
