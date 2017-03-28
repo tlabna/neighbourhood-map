@@ -51,19 +51,6 @@ body {
 }
 
 
-/* Larger screen (over 768px i.e. tablets) */
-
-@media only screen and (min-width: 769px) {
-    .current-location-box {
-        position: static;
-        bottom: auto;
-        right: auto;
-        width: 455px;
-        margin-top: 5px;
-    }
-}
-
-
 /* Venue List Box */
 
 .foursquare-img-container {
@@ -83,7 +70,7 @@ body {
     display: block;
     overflow: auto;
     margin-top: 5px;
-    width: 80%;
+    max-width: 315px;
     height: 300px;
     background: #FFF;
 }
@@ -164,4 +151,28 @@ body {
 .venue-infowindow .glyphicon {
     margin-right: 5px;
     margin-bottom: 5px;
+}
+
+#map-error, #foursquare-error {
+    background-color: #FF6666;
+    color: #FFF;
+    padding: 0 10px;
+    text-align: center;
+    z-index: 3;
+}
+
+/* Larger screen (over 768px i.e. tablets) */
+
+@media only screen and (min-width: 769px) {
+    .current-location-box {
+        position: static;
+        bottom: auto;
+        right: auto;
+        width: 455px;
+        margin-top: 5px;
+    }
+
+    .venues-list {
+        max-width: 455px;
+    }
 }

@@ -173,7 +173,7 @@ function ViewModel() {
             },
             complete: function() {
                 if (self.topPicks().length === 0)
-                    $('#foursquare-error').html('<h2>No result available.</h2><h2>Please try a different search</h2>');
+                    $('#foursquare-error').html('<h2>No results available.</h2><h2>Please try refreshing the page.</h2>');
             },
             error: function(data) {
                 $('#foursquare-error').html('<h2>There were errors retrieving venue data. Please try refreshing the page.</h2>');
