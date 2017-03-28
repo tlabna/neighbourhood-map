@@ -30,6 +30,8 @@ gulp.task('minifyjs', function() {
 gulp.task('minifyhtml', function() {
     gulp.src('src/*.html')
         .pipe(minifyHTML({
+            // Regex to ignore ko foreach comment
+            //https://stackoverflow.com/questions/22544914/how-to-not-remove-some-knockout-specific-comments-using-grunt-contrib-htmlmin
             ignoreCustomComments: [/^\s+ko/, /\/ko\s+$/],
             minifyJS: true
         }))
