@@ -1,18 +1,10 @@
-@import url(https://fonts.googleapis.com/css?family=Lato:300,400,700);
 html,
 body {
     height: 100%;
     margin: 0;
     padding: 0;
+    font-family: 'Lato' !important;
 }
-
-/*#map-error {
-    position: fixed;
-    z-index: 2;
-    top: 10%;
-    width: 100%;
-    color: red;
-}*/
 
 #map-error,
 #foursquare-error {

@@ -1,4 +1,4 @@
-// Venue Model Initialization
+/* Venue Model Initialization */
 var Venue = function(data, foursquare_appInfo) {
     // Variables for data that is always defined or doesn't need formatting
     this.id = data.venue.id;
