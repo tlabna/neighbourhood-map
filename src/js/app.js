@@ -62,6 +62,38 @@ function ViewModel() {
     self.selectedMarker = ko.observable(''); // selected marker
     self.selectedVenue = ko.observable(''); // selected venue
     self.displayVenuesList = ko.observable('false'); // boolean for display venues list (default: false)
+    self.categories = ko.observableArray(); // Array of distinct categories
+    this.selectedCategory = ko.observable(false); // Value of selected category from dropdown
+
+    // Returns an array of filtered subset of topPicks location list
+    self.filterVenues = ko.computed(function() {
+        if (!self.selectedCategory()) {
+            ko.utils.arrayFilter(self.topPicks(), function(venueItem) {
+
+                marker = venueItem.marker;
+
+                // Check if marker exists, if yes, then make sure it is visible
+                if (marker.hasOwnProperty('visible')) {
+                    marker.visible = true;
+                    marker.setVisible(true);
+                }
+            });
+            return self.topPicks();
+        }
+        else {
+            return ko.utils.arrayFilter(self.topPicks(), function(venueItem) {
+
+                    // Only display items and markers that match selected category
+                    if (venueItem.categories == self.selectedCategory()) {
+                        venueItem.marker.setVisible(true);
+                        return venueItem;
+                    }
+                    else {
+                        venueItem.marker.setVisible(false);
+                    }
+            });
+        }
+    });
 
     // Update displays for map and venues when user
     // types in area search box
@@ -154,9 +186,19 @@ function ViewModel() {
                     self.topPicks.push(new Venue(venueItem, foursquare_appInfo));
                 });
 
+                // empty category list to hold new ones
+                if (self.categories().length > 0) {
+                        self.categories().length = 0;
+                    }
+
                 // set marker for each venue
                 self.topPicks().forEach(function(venueItem) {
                     createVenueMarker(venueItem);
+
+                    // Build a category list and make sure we don't store duplicates
+                    if (!self.categories().includes(venueItem.categories)) {
+                        self.categories.push(venueItem.categories);
+                    }
                 });
 
                 // Check if we need to change bounds to fit venue markers from Four Square

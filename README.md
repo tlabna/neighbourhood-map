@@ -38,7 +38,7 @@ The Neighbourhood Map application should now be running on your web browser.
 **2.** Install packages needed for project
 
 ```
-npm install --save-dev gulp gulp-minify-css gulp-uglify gulp-htmlmin
+npm i
 ```
 
 **3.** To run, type ```$ gulp``` to run all automations
