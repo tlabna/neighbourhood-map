@@ -386,19 +386,16 @@ function ViewModel() {
 
     }
 
-    // getNeighbourhoodCallBack(results, status) makes sure the search returned results for a location.
+    // placeSearchCallBack(results, status) makes sure the search returned results for a location.
     // if so, get and update neighborhood venues
-    function getNeighbourhoodCallback(results, status) {
-
-
-        if (status != google.maps.places.PlacesServiceStatus.OK) {
-            gm_authFailure('places');
-            return;
-        }
+    function placeSearchCallback(results, status) {
 
         if (status == google.maps.places.PlacesServiceStatus.OK) {
             getNeighbourhoodVenues(results[0]);
 
+        }
+        else {
+            gmapError('places');
         }
     }
 
@@ -417,7 +414,7 @@ function ViewModel() {
         // PlacesService does searching for location data.
         service = new google.maps.places.PlacesService(map);
         // searches the Google Maps API for location data and runs callback
-        service.textSearch(request, getNeighbourhoodCallback);
+        service.textSearch(request, placeSearchCallback);
 
     }
 
@@ -469,7 +466,7 @@ function ViewModel() {
         //                     }
         //                 }
         //             } else {
-        //                 gm_authFailure('places');
+        //                 gmapError('places');
         //             }
         //         });
         //     });
@@ -485,12 +482,19 @@ function ViewModel() {
 }
 
 // Catch errors returned from the map
-function gm_authFailure(service) {
+function gmapError(service) {
     if (service == 'places') {
         $('#map-error').html('<h2>It seems your search does not exist...</h2><h2>Please refresh the page and try a different search result.</h2>');
         return;
     }
     $('#map-error').html('<h2>There were errors when retrieving map data.</h2><h2>Please try refreshing the page.</h2>');
+    return;
+}
+
+// Listening for authentication errors
+// Provided by Google: https://developers.google.com/maps/documentation/javascript/events#auth-errors
+function gm_authFailure() {
+    $('#map-error').html('<h2>Please try refreshing the page.</h2>');
     return;
 }
 
