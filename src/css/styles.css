@@ -36,6 +36,21 @@ body {
     padding: 0 5px;
 }
 
+.filter-select {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.reset {
+    color: red;
+    font-size: 10px;
+    margin-left: 5px;
+}
+
+.reset:hover {
+    cursor: pointer;
+}
+
 .current-location-box {
     font-size: 14px;
     font-weight: 700;

@@ -63,7 +63,7 @@ function ViewModel() {
     self.selectedVenue = ko.observable(''); // selected venue
     self.displayVenuesList = ko.observable('false'); // boolean for display venues list (default: false)
     self.categories = ko.observableArray(); // Array of distinct categories
-    this.selectedCategory = ko.observable(false); // Value of selected category from dropdown
+    self.selectedCategory = ko.observable(); // Value of selected category from dropdown
 
     // Returns an array of filtered subset of topPicks location list
     self.filterVenues = ko.computed(function() {
@@ -94,6 +94,13 @@ function ViewModel() {
             });
         }
     });
+
+    // Function to reset dropdown selection
+    // Fired on click event
+    self.resetOptions = function() {
+        console.log('Click Reset');
+        self.selectedCategory(null);
+    };
 
     // Update displays for map and venues when user
     // types in area search box

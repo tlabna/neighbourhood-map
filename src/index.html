@@ -43,7 +43,7 @@
                 <img src="images/foursquare.png" alt="Powered by Foursquare">
             </div>
             <div class="filter-select">
-                <select data-bind="options: categories, optionsCaption: 'Choose category to filter', value: selectedCategory"></select>
+                <select data-bind="options: categories, optionsCaption: 'Choose category to filter', value: selectedCategory"></select><span data-bind="click: resetOptions()" class="reset">Reset</span>
             </div>
             <!-- ko foreach: filterVenues() -->
             <div data-bind="attr:{id: id}, css:{'selected-venue-item': id === $root.selectedVenue()}, click: $root.panToMarker" class="venue-list-item group">
