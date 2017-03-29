@@ -79,18 +79,16 @@ function ViewModel() {
                 }
             });
             return self.topPicks();
-        }
-        else {
+        } else {
             return ko.utils.arrayFilter(self.topPicks(), function(venueItem) {
 
-                    // Only display items and markers that match selected category
-                    if (venueItem.categories == self.selectedCategory()) {
-                        venueItem.marker.setVisible(true);
-                        return venueItem;
-                    }
-                    else {
-                        venueItem.marker.setVisible(false);
-                    }
+                // Only display items and markers that match selected category
+                if (venueItem.categories == self.selectedCategory()) {
+                    venueItem.marker.setVisible(true);
+                    return venueItem;
+                } else {
+                    venueItem.marker.setVisible(false);
+                }
             });
         }
     });
@@ -195,8 +193,8 @@ function ViewModel() {
 
                 // empty category list to hold new ones
                 if (self.categories().length > 0) {
-                        self.categories().length = 0;
-                    }
+                    self.categories().length = 0;
+                }
 
                 // set marker for each venue
                 self.topPicks().forEach(function(venueItem) {
@@ -400,8 +398,7 @@ function ViewModel() {
         if (status == google.maps.places.PlacesServiceStatus.OK) {
             getNeighbourhoodVenues(results[0]);
 
-        }
-        else {
+        } else {
             gmapError('places');
         }
     }
