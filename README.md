@@ -2,53 +2,58 @@
 
 A responsive web application which uses the Foursquare API and Google Maps API to find interesting places in a neighbourhood and display them on a map.
 
-___
+[Live Demo](https://tlabna.github.io/neighbourhood-map/dist/index.html)
 
-### Dependencies
+**Note _(as of 2018)_: Ratings, Contact and Website info will display unavailable due to Foursquare API free tier changes**
+
+
+---
+
+## Dependencies
 - Google Maps Javascript API
 - Foursquare API
 - Bootstrap 3
 - [Knockout JS](http://knockoutjs.com/documentation/introduction.html)
-- Web browser
-- Shell
 
-___
+###### APIs used
+
+- [Google Maps Javascript API](https://developers.google.com/maps/documentation/javascript/)
+- [Foursquare API](https://developer.foursquare.com/)
+
+---
 
 ## Getting Started
 
-###### Locally
-
 **1.** Clone this repo
 
-**2.** Change working directory to ``` /dist ```
+**2.** Change working directory to `/dist `
 
-**3.** Serve the website: ``` $ python -m SimpleHTTPServer 8080```
+**3.** Serve the website locally:
 
-Detailed Python Simple Server instructions can been found [here](https://docs.python.org/2/library/basehttpserver.html).
+```bash
+python -m SimpleHTTPServer 8080     (python2)
 
-**4.** Open the website in your browser at ``` http://localhost:8080 ```
+python -m http.server 8080          (python3)
+```
+
+_Detailed Python Simple Server instructions can been found [here](https://docs.python.org/2/library/basehttpserver.html)._
+
+**4.** Open the website in your browser at ` http://localhost:8080 `
 
 The Neighbourhood Map application should now be running on your web browser.
 
+---
+## Using Gulp
 
-###### Using Gulp
+Gulp is used for build automation.
 
-**1.** Download [gulp](https://www.npmjs.com/package/gulp). Gulp is the tool used for build automation.
+**1.** Install packages needed for project:
 
-**2.** Install packages needed for project
-
-```
+```bash
 npm i
 ```
 
-**3.** To run, type ```$ gulp``` to run all automations
-
-
-###### APIs needed
-
-1. [Google Maps Javascript API](https://developers.google.com/maps/documentation/javascript/)
-2. [Foursquare API](https://developer.foursquare.com/)
-
+**2.** To run, type `$ gulp` to run all automations
 
 ## Usage
 
