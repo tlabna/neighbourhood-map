@@ -28,6 +28,10 @@ body {
     z-index: 0;
 }
 
+.hidden {
+    display: none;
+}
+
 .overlap {
     position: relative;
     /* Content will go on top of map, therefore z-index of 1 */

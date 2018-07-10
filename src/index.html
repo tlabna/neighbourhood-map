@@ -31,14 +31,14 @@
             </div>
         </form>
         <!-- Current location box that toggles venue list -->
-        <div class="current-location-box">
+        <div class="current-location-box hidden">
             <div class="current-location-address">
                 <span data-bind="text: formattedAddress"></span>
                 <div class="toggle-venues-list" data-bind="click:toggleVenuesDisplay()"><span data-bind="css: {'glyphicon-plus': !displayVenuesList(), 'glyphicon-minus': displayVenuesList()}" class="glyphicon"></span>
                 </div>
             </div>
         </div>
-        <div data-bind="visible: displayVenuesList" class="venues-list">
+        <div data-bind="visible: displayVenuesList" class="venues-list hidden">
             <div class="foursquare-img-container">
                 <img src="images/foursquare.png" alt="Powered by Foursquare">
             </div>
@@ -80,8 +80,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="js/app.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNVql4BDc9FUGDLwN3HjjcZ0zz2SS9-sY&libraries=places" async defer onerror="gmapError()"></script>
+    <script defer src="js/app.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNVql4BDc9FUGDLwN3HjjcZ0zz2SS9-sY&libraries=places" onerror="gmapError()"></script>
 </body>
 
 </html>

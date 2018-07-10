@@ -504,7 +504,12 @@ function gm_authFailure() {
 
 // initialize ViewModel
 $(function() {
+    const currentLocationBox = document.querySelector('.current-location-box');
+    const venuesList = document.querySelector('.venues-list');
 
     ko.applyBindings(new ViewModel());
+
+    currentLocationBox.classList.toggle('hidden');
+    venuesList.classList.toggle('hidden');
 
 });
